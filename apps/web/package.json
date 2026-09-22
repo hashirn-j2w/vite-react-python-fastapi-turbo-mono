@@ -1,0 +1,33 @@
+{
+  "name": "web",
+  "version": "0.0.1",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "typecheck": "tsc -b",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@tanstack/react-query": "catalog:",
+    "@workspace/api-client": "workspace:*",
+    "@workspace/ui": "workspace:*",
+    "cn": "^0.3.2",
+    "lucide-react": "^1.47.0",
+    "react": "catalog:",
+    "react-dom": "catalog:",
+    "zod": "catalog:"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "^4",
+    "@tanstack/react-query-devtools": "catalog:",
+    "@types/node": "catalog:",
+    "@types/react": "catalog:",
+    "@types/react-dom": "catalog:",
+    "@vitejs/plugin-react": "^6",
+    "@workspace/typescript-config": "workspace:*",
+    "typescript": "catalog:",
+    "vite": "^8"
+  }
+}

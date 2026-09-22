@@ -1,0 +1,21 @@
+packages:
+  - "apps/*"
+  - "packages/*"
+
+# Shared versions: reference with `"pkg": "catalog:"` so every package resolves
+# the same copy (one React / TanStack Query instance in the bundle).
+catalog:
+  "@tanstack/react-query": ^5.103.2
+  "@tanstack/react-query-devtools": ^5.103.2
+  "@types/node": ^24
+  "@types/react": ^19
+  "@types/react-dom": ^19
+  react: ^19.2.8
+  react-dom: ^19.2.8
+  # Stay on TS 6: @hey-api/openapi-ts uses the TS compiler API, which TS 7 (native) doesn't ship.
+  typescript: ~6.0.3
+  zod: ^4.6.5
+
+allowBuilds:
+  esbuild: true
+  msw: false

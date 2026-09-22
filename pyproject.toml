@@ -1,0 +1,39 @@
+# uv workspace root (virtual: not a Python package itself).
+# Turborepo discovers every workspace member as a package — see turbo.json `futureFlags`.
+
+[tool.turbo]
+name = "py-workspace"
+
+[tool.uv.workspace]
+members = ["apps/api"]
+
+# Tools declared here apply to every member: turbo maps `lint`/`format` to ruff
+# and `check` to pyright.
+[dependency-groups]
+dev = ["pyright>=1.1.414", "ruff>=0.16.8"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py314"
+
+[tool.ruff.lint]
+select = [
+  "E", # pycodestyle errors
+  "W", # pycodestyle warnings
+  "F", # pyflakes
+  "I", # isort
+  "B", # bugbear
+  "UP", # pyupgrade
+  "SIM", # simplify
+  "C4", # comprehensions
+  "RUF", # ruff-specific
+  "ASYNC", # async pitfalls
+  "FAST", # FastAPI
+]
+ignore = ["E501"] # line length is the formatter's job
+
+[tool.pyright]
+venvPath = "."
+venv = ".venv"
+pythonVersion = "3.14"
+typeCheckingMode = "standard"

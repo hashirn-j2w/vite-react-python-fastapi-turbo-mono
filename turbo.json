@@ -1,0 +1,91 @@
+{
+  "$schema": "https://turborepo.dev/schema.json",
+  "ui": "tui",
+  "futureFlags": {
+    "experimentalPythonWorkspaces": true,
+    "experimentalTaskCommand": true
+  },
+  "tasks": {
+    "topo": {
+      "dependsOn": ["^topo"]
+    },
+    "generate": {
+      "outputs": ["src/gen/**"]
+    },
+    "build": {
+      "dependsOn": ["^build", "^generate"],
+      "inputs": ["$TURBO_DEFAULT$", ".env*"],
+      "outputs": ["dist/**"],
+      "env": ["VITE_*"]
+    },
+    "typecheck": {
+      "dependsOn": ["topo", "generate", "^generate"]
+    },
+    "dev": {
+      "dependsOn": ["^generate"],
+      "cache": false,
+      "persistent": true,
+      "passThroughEnv": ["VITE_*"]
+    },
+
+    "api#generate": {
+      "command": [
+        "uv",
+        "run",
+        "--frozen",
+        "python",
+        "-m",
+        "api.export_openapi"
+      ],
+      "outputs": ["openapi.json"]
+    },
+    "@workspace/api-client#generate": {
+      "dependsOn": ["api#generate"],
+      "outputs": ["src/gen/**"]
+    },
+    "api#dev": {
+      "command": ["uv", "run", "--frozen", "fastapi", "dev", "src/api/main.py"],
+      "cache": false,
+      "persistent": true,
+      "passThroughEnv": ["API_*"]
+    },
+
+    "api#format": {
+      "command": ["uv", "run", "--frozen", "ruff", "format", "--check", "."]
+    },
+    "py-workspace#format": {
+      "command": ["uv", "run", "--frozen", "ruff", "format", "--check"]
+    },
+    "py-workspace#lint:fix": {
+      "command": ["uv", "run", "--frozen", "ruff", "check", "--fix"],
+      "cache": false
+    },
+    "py-workspace#format:fix": {
+      "command": ["uv", "run", "--frozen", "ruff", "format"],
+      "dependsOn": ["py-workspace#lint:fix"],
+      "cache": false
+    },
+    "py-workspace#quality": {
+      "dependsOn": ["py-workspace#lint", "py-workspace#format"]
+    },
+    "py-workspace#quality:fix": {
+      "dependsOn": ["py-workspace#lint:fix", "py-workspace#format:fix"]
+    },
+
+    "//#lint": {},
+    "//#lint:fix": {
+      "cache": false
+    },
+    "//#format": {},
+    "//#format:fix": {
+      "dependsOn": ["//#lint:fix"],
+      "cache": false
+    },
+    "//#quality": {
+      "dependsOn": ["//#lint", "//#format"]
+    },
+    "//#quality:fix": {
+      "dependsOn": ["//#lint:fix", "//#format:fix"]
+    }
+  }
+}

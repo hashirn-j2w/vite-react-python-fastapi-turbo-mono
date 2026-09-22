@@ -20,6 +20,7 @@ import { CreateItemForm } from "@/components/create-item-form.tsx"
 export function App() {
   const queryClient = useQueryClient()
   const items = useQuery(listItemsOptions())
+
   const deleteItem = useMutation({
     ...deleteItemMutation(),
     onSuccess: () =>

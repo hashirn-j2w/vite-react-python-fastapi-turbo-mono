@@ -17,6 +17,7 @@ type FieldErrors = z.core.$ZodFlattenedError<
 export function CreateItemForm() {
   const queryClient = useQueryClient()
   const [errors, setErrors] = useState<FieldErrors>({})
+
   const createItem = useMutation({
     ...createItemMutation(),
     onSuccess: () =>
@@ -38,8 +39,10 @@ export function CreateItemForm() {
         .map((tag) => tag.trim())
         .filter(Boolean),
     })
+
     if (!result.success) {
       setErrors(z.flattenError(result.error).fieldErrors)
+
       return
     }
 
@@ -94,5 +97,6 @@ export function CreateItemForm() {
 
 function FieldError({ messages }: { messages?: string[] }) {
   if (!messages?.length) return null
+
   return <p className="text-xs text-destructive">{messages[0]}</p>
 }

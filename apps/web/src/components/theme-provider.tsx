@@ -2,6 +2,7 @@
 import * as React from "react"
 
 type Theme = "dark" | "light" | "system"
+
 type ResolvedTheme = "dark" | "light"
 
 type ThemeProviderProps = {
@@ -17,6 +18,7 @@ type ThemeProviderState = {
 }
 
 const COLOR_SCHEME_QUERY = "(prefers-color-scheme: dark)"
+
 const THEME_VALUES: Theme[] = ["dark", "light", "system"]
 
 const ThemeProviderContext = React.createContext<
@@ -28,7 +30,7 @@ function isTheme(value: string | null): value is Theme {
     return false
   }
 
-  return THEME_VALUES.includes(value as Theme)
+  return THEME_VALUES.some((theme) => theme === value)
 }
 
 function getSystemTheme(): ResolvedTheme {
@@ -70,6 +72,7 @@ function isEditableTarget(target: EventTarget | null) {
   const editableParent = target.closest(
     "input, textarea, select, [contenteditable='true']"
   )
+
   if (editableParent) {
     return true
   }
@@ -86,6 +89,7 @@ export function ThemeProvider({
 }: ThemeProviderProps) {
   const [theme, setThemeState] = React.useState<Theme>(() => {
     const storedTheme = localStorage.getItem(storageKey)
+
     if (isTheme(storedTheme)) {
       return storedTheme
     }
@@ -104,8 +108,10 @@ export function ThemeProvider({
   const applyTheme = React.useCallback(
     (nextTheme: Theme) => {
       const root = document.documentElement
+
       const resolvedTheme =
         nextTheme === "system" ? getSystemTheme() : nextTheme
+
       const restoreTransitions = disableTransitionOnChange
         ? disableTransitionsTemporarily()
         : null
@@ -128,6 +134,7 @@ export function ThemeProvider({
     }
 
     const mediaQuery = window.matchMedia(COLOR_SCHEME_QUERY)
+
     const handleChange = () => {
       applyTheme("system")
     }
@@ -168,6 +175,7 @@ export function ThemeProvider({
                 : "dark"
 
         localStorage.setItem(storageKey, nextTheme)
+
         return nextTheme
       })
     }
@@ -191,6 +199,7 @@ export function ThemeProvider({
 
       if (isTheme(event.newValue)) {
         setThemeState(event.newValue)
+
         return
       }
 

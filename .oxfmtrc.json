@@ -18,6 +18,18 @@
     "coverage/",
     "pnpm-lock.yaml",
     "uv.lock",
-    ".pnpm-store/"
+    ".pnpm-store/",
+    ".agent/**",
+    ".agents/**",
+    ".claude/**",
+    ".codex/**",
+    ".continue/**",
+    ".cursor/**",
+    ".gemini/**",
+    ".opencode/**",
+    ".pi/**",
+    ".roo/**",
+    ".windsurf/**",
+    "tools/oxlint/anti-slop/**"
   ]
 }

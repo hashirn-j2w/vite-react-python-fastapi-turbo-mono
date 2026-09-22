@@ -81,3 +81,6 @@ in `[tool.uv.workspace] members`.
 - TypeScript is pinned to 6.x (pnpm catalog): `@hey-api/openapi-ts` still needs the
   TypeScript compiler API, which the native TypeScript 7 doesn't ship.
 - Shared dependency versions live in the `catalog` in `pnpm-workspace.yaml`.
+- oxlint also runs the vendored [anti-slop](tools/oxlint/anti-slop/UPSTREAM.md) plugin
+  (all rules at `error`). Update it with the `install-anti-slop` skill, not by
+  replacing the directory.
